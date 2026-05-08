@@ -11,6 +11,91 @@ env = { "CI" = "true" }
 [workflows]
 runButton = "Project"
 
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "API Server"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Aurelix Mobile"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Pitch Deck"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Promo Video"
+
+[[workflows.workflow]]
+name = "API Server"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=8080 pnpm --filter @workspace/api-server run dev"
+waitForPort = 8080
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=26209 BASE_PATH=/ pnpm --filter @workspace/aurelix run dev"
+waitForPort = 26209
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow]]
+name = "Aurelix Mobile"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=21758 BASE_PATH=/aurelix-mobile/ pnpm --filter @workspace/aurelix-mobile run dev"
+waitForPort = 21758
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow]]
+name = "Pitch Deck"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=22243 BASE_PATH=/aurelix-pitch-deck/ pnpm --filter @workspace/aurelix-pitch-deck run dev"
+waitForPort = 22243
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow]]
+name = "Promo Video"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=21716 BASE_PATH=/aurelix-promo/ pnpm --filter @workspace/aurelix-promo run dev"
+waitForPort = 21716
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
 [agent]
 stack = "PNPM_WORKSPACE"
 expertMode = true
