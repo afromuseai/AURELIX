@@ -16,6 +16,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useColors } from "@/hooks/useColors";
+import { ConstellationBackground } from "@/components/ConstellationBackground";
 
 const { width } = Dimensions.get("window");
 
@@ -102,99 +103,103 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: colors.background }]}
-      contentContainerStyle={[
-        styles.content,
-        { paddingTop: topInset + 24, paddingBottom: bottomInset + 40 },
-      ]}
-      showsVerticalScrollIndicator={false}
-    >
-      <Animated.View
-        style={[
-          styles.heroSection,
-          { opacity: logoOpacity, transform: [{ scale: logoScale }] },
+    <View style={[styles.wrapper, { backgroundColor: colors.background }]}>
+      <ConstellationBackground />
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={[
+          styles.content,
+          { paddingTop: topInset + 24, paddingBottom: bottomInset + 40 },
         ]}
+        showsVerticalScrollIndicator={false}
       >
-        <Image
-          source={require("../../assets/images/aurelix-logo-transparent.png")}
-          style={styles.logoImage}
-          contentFit="contain"
-        />
-      </Animated.View>
-
-      <Animated.View style={{ opacity: titleOpacity, alignItems: "center" }}>
-        <Text style={[styles.tagline, { color: colors.mutedForeground }]}>
-          Intelligent systems that evolve,{"\n"}adapt, and scale with human
-          ambition.
-        </Text>
-      </Animated.View>
-
-      <View style={styles.ctaRow}>
-        <Pressable
-          testID="explore-products-btn"
-          style={({ pressed }) => [
-            styles.primaryBtn,
-            { backgroundColor: colors.gold, opacity: pressed ? 0.8 : 1 },
+        <Animated.View
+          style={[
+            styles.heroSection,
+            { opacity: logoOpacity, transform: [{ scale: logoScale }] },
           ]}
-          onPress={() => {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-            router.push("/(tabs)/products");
-          }}
         >
-          <Text style={[styles.primaryBtnText, { color: colors.background }]}>
-            Explore Products
-          </Text>
-          <Ionicons name="arrow-forward" size={16} color={colors.background} />
-        </Pressable>
+          <Image
+            source={require("../../assets/images/aurelix-logo-transparent.png")}
+            style={styles.logoImage}
+            contentFit="contain"
+          />
+        </Animated.View>
 
-        <Pressable
-          testID="join-waitlist-btn"
-          style={({ pressed }) => [
-            styles.secondaryBtn,
-            {
-              borderColor: colors.gold,
-              opacity: pressed ? 0.7 : 1,
-            },
+        <Animated.View style={{ opacity: titleOpacity, alignItems: "center" }}>
+          <Text style={[styles.tagline, { color: colors.mutedForeground }]}>
+            Intelligent systems that evolve,{"\n"}adapt, and scale with human
+            ambition.
+          </Text>
+        </Animated.View>
+
+        <View style={styles.ctaRow}>
+          <Pressable
+            testID="explore-products-btn"
+            style={({ pressed }) => [
+              styles.primaryBtn,
+              { backgroundColor: colors.gold, opacity: pressed ? 0.8 : 1 },
+            ]}
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+              router.push("/(tabs)/products");
+            }}
+          >
+            <Text style={[styles.primaryBtnText, { color: colors.background }]}>
+              Explore Products
+            </Text>
+            <Ionicons name="arrow-forward" size={16} color={colors.background} />
+          </Pressable>
+
+          <Pressable
+            testID="join-waitlist-btn"
+            style={({ pressed }) => [
+              styles.secondaryBtn,
+              {
+                borderColor: colors.gold,
+                opacity: pressed ? 0.7 : 1,
+              },
+            ]}
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              router.push("/(tabs)/waitlist");
+            }}
+          >
+            <Text style={[styles.secondaryBtnText, { color: colors.gold }]}>
+              Join Waitlist
+            </Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>
+            OUR BELIEFS
+          </Text>
+          {BELIEFS.map((b, i) => (
+            <BeliefCard key={i} text={b} delay={800 + i * 120} />
+          ))}
+        </View>
+
+        <View
+          style={[
+            styles.labsBadge,
+            { backgroundColor: colors.card, borderColor: colors.border },
           ]}
-          onPress={() => {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-            router.push("/(tabs)/waitlist");
-          }}
         >
-          <Text style={[styles.secondaryBtnText, { color: colors.gold }]}>
-            Join Waitlist
+          <Ionicons name="flask" size={14} color={colors.gold} />
+          <Text style={[styles.labsText, { color: colors.mutedForeground }]}>
+            AURELIX LABS — Research in autonomous AI, intelligence infrastructure
+            & creative computation
           </Text>
-        </Pressable>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>
-          OUR BELIEFS
-        </Text>
-        {BELIEFS.map((b, i) => (
-          <BeliefCard key={i} text={b} delay={800 + i * 120} />
-        ))}
-      </View>
-
-      <View
-        style={[
-          styles.labsBadge,
-          { backgroundColor: colors.card, borderColor: colors.border },
-        ]}
-      >
-        <Ionicons name="flask" size={14} color={colors.gold} />
-        <Text style={[styles.labsText, { color: colors.mutedForeground }]}>
-          AURELIX LABS — Research in autonomous AI, intelligence infrastructure
-          & creative computation
-        </Text>
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  wrapper: { flex: 1 },
+  scrollView: { flex: 1 },
   content: {
     alignItems: "center",
     paddingHorizontal: 24,

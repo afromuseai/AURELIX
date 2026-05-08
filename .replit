@@ -138,3 +138,8 @@ externalPort = 80
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+ADMIN_SECRET = "aurelix-admin-2024"
