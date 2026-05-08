@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { ParticleField } from '@/components/animations/particle-field'
 import { FloatingElement } from '@/components/animations/floating-elements'
 import { ArrowRight, Sparkles } from 'lucide-react'
 
@@ -6,20 +7,11 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
 
-      {/* Constellation Video Background — same source as promo video */}
-      <div className="absolute inset-0 opacity-50 mix-blend-screen pointer-events-none">
-        <video
-          src={`${import.meta.env.BASE_URL}videos/constellation.mp4`}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover"
-        />
-      </div>
+      {/* Constellation — nodes stay fixed, lines morph between them */}
+      <ParticleField particleCount={22} />
 
-      {/* Subtle gold radial glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[140px] pointer-events-none" />
+      {/* Subtle centre glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 text-center">
@@ -51,6 +43,7 @@ export function HeroSection() {
           <br />
           <span className="text-foreground">Intelligent Systems</span>
         </motion.h1>
+
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
