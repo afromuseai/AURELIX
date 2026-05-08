@@ -1,24 +1,25 @@
-
-
 import { motion } from 'framer-motion'
-
-import { Link } from 'wouter'
-import { ParticleField } from '@/components/animations/particle-field'
 import { FloatingElement } from '@/components/animations/floating-elements'
 import { ArrowRight, Sparkles } from 'lucide-react'
 
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      {/* Particle Constellation */}
-      <ParticleField
-        particleCount={38}
-        color="rgba(212, 175, 55"
-      />
 
-      {/* Gradient Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-[120px] animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
+      {/* Constellation Video Background — same source as promo video */}
+      <div className="absolute inset-0 opacity-50 mix-blend-screen pointer-events-none">
+        <video
+          src={`${import.meta.env.BASE_URL}videos/constellation.mp4`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Subtle gold radial glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 text-center">
