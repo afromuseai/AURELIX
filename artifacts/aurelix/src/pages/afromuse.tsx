@@ -51,7 +51,7 @@ function AfroMuseHero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-amber-950/10" />
       <div className="absolute inset-0 bg-grid opacity-20" />
-      <ParticleField particleCount={40} color="rgba(251, 191, 36" />
+      <ParticleField particleCount={40} color="rgba(251, 191, 36, 1)" />
 
       <div className="absolute bottom-0 left-0 right-0 h-32 overflow-hidden opacity-20">
         <motion.div

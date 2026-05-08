@@ -2,6 +2,16 @@
 
 import { useEffect, useRef } from 'react'
 
+function withAlpha(color: string, alpha: number): string {
+  const clamped = Math.max(0, Math.min(1, alpha))
+  const normalized = color.trim()
+  const rgbaMatch = normalized.match(/^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/)
+  if (rgbaMatch) {
+    return `rgba(${rgbaMatch[1]}, ${rgbaMatch[2]}, ${rgbaMatch[3]}, ${clamped})`
+  }
+  return color
+}
+
 interface Particle {
   x: number
   y: number
@@ -67,7 +77,7 @@ export function ParticleField({
         // Draw particle
         ctx.beginPath()
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-        ctx.fillStyle = color.replace(')', `, ${particle.opacity})`)
+        ctx.fillStyle = withAlpha(color, particle.opacity)
         ctx.fill()
 
         // Draw connections
@@ -80,7 +90,7 @@ export function ParticleField({
             ctx.beginPath()
             ctx.moveTo(particle.x, particle.y)
             ctx.lineTo(other.x, other.y)
-            ctx.strokeStyle = color.replace(')', `, ${0.1 * (1 - distance / 120)})`)
+            ctx.strokeStyle = withAlpha(color, 0.1 * (1 - distance / 120))
             ctx.lineWidth = 0.5
             ctx.stroke()
           }
