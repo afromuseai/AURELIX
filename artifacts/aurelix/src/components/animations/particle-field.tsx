@@ -6,11 +6,12 @@ interface Dot {
   vx: number
   vy: number
   r: number
+  glow: boolean
 }
 
 export function ParticleField({
   className = '',
-  particleCount = 24,
+  particleCount = 28,
 }: {
   className?: string
   particleCount?: number
@@ -32,19 +33,20 @@ export function ParticleField({
       canvas.width = canvas.offsetWidth * dpr
       canvas.height = canvas.offsetHeight * dpr
       ctx.scale(dpr, dpr)
-
       const W = canvas.offsetWidth
       const H = canvas.offsetHeight
 
       dotsRef.current = Array.from({ length: particleCount }, () => {
-        const speed = 0.08 + Math.random() * 0.12
         const angle = Math.random() * Math.PI * 2
+        const speed = 0.1 + Math.random() * 0.15
+        const glow = Math.random() < 0.25
         return {
           x: Math.random() * W,
           y: Math.random() * H,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          r: Math.random() < 0.2 ? 2.0 + Math.random() * 0.8 : 0.6 + Math.random() * 0.7,
+          r: glow ? 2.5 + Math.random() : 1.0 + Math.random() * 0.8,
+          glow,
         }
       })
     }
@@ -52,15 +54,15 @@ export function ParticleField({
     init()
     window.addEventListener('resize', init)
 
-    const MAX = 280
+    const MAX = 300
 
-    const loop = () => {
+    const frame = () => {
       const W = canvas.offsetWidth
       const H = canvas.offsetHeight
       ctx.clearRect(0, 0, W, H)
-
       const dots = dotsRef.current
 
+      // Move
       for (const d of dots) {
         d.x += d.vx
         d.y += d.vy
@@ -70,52 +72,51 @@ export function ParticleField({
         if (d.y > H) d.y = 0
       }
 
-      // Draw lines first (behind dots)
+      // Lines
       for (let i = 0; i < dots.length; i++) {
         for (let j = i + 1; j < dots.length; j++) {
           const dx = dots[i].x - dots[j].x
           const dy = dots[i].y - dots[j].y
           const dist = Math.sqrt(dx * dx + dy * dy)
           if (dist >= MAX) continue
-
           const t = 1 - dist / MAX
-          const alpha = t * t * 0.6
-
           ctx.beginPath()
           ctx.moveTo(dots[i].x, dots[i].y)
           ctx.lineTo(dots[j].x, dots[j].y)
-          ctx.strokeStyle = `rgba(212,175,55,${alpha})`
-          ctx.lineWidth = 0.75
+          ctx.strokeStyle = `rgba(212,175,55,${(t * t * 0.7).toFixed(3)})`
+          ctx.lineWidth = 0.9
           ctx.stroke()
         }
       }
 
-      // Draw dots on top
+      // Dots
       for (const d of dots) {
-        const isLarge = d.r > 1.6
-
-        if (isLarge) {
+        if (d.glow) {
           ctx.save()
-          ctx.shadowBlur = 10
-          ctx.shadowColor = 'rgba(212,175,55,0.85)'
+          ctx.shadowBlur = 18
+          ctx.shadowColor = 'rgba(212,175,55,1)'
           ctx.beginPath()
           ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2)
-          ctx.fillStyle = 'rgba(212,175,55,0.9)'
+          ctx.fillStyle = 'rgba(230,195,75,0.95)'
           ctx.fill()
           ctx.restore()
+          // halo
+          ctx.beginPath()
+          ctx.arc(d.x, d.y, d.r * 3, 0, Math.PI * 2)
+          ctx.fillStyle = 'rgba(212,175,55,0.08)'
+          ctx.fill()
         } else {
           ctx.beginPath()
           ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2)
-          ctx.fillStyle = 'rgba(212,175,55,0.65)'
+          ctx.fillStyle = 'rgba(212,175,55,0.75)'
           ctx.fill()
         }
       }
 
-      rafRef.current = requestAnimationFrame(loop)
+      rafRef.current = requestAnimationFrame(frame)
     }
 
-    loop()
-
+    frame()
     return () => {
       window.removeEventListener('resize', init)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
