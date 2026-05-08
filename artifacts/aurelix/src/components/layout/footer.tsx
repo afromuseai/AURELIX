@@ -9,7 +9,7 @@ const socialLinks = [
   { name: 'Twitter', icon: Twitter, href: '#' },
   { name: 'LinkedIn', icon: Linkedin, href: '#' },
   { name: 'GitHub', icon: Github, href: '#' },
-  { name: 'Email', icon: Mail, href: 'mailto:contact@aurelixsystems.com' },
+  { name: 'Email', icon: Mail, href: 'mailto:aurelixsystemz@gmail.com' },
 ]
 
 const footerLinks = [

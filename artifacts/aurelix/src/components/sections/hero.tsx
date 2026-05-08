@@ -10,20 +10,9 @@ import { ArrowRight, Sparkles } from 'lucide-react'
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      {/* Background Grid */}
-      <div className="absolute inset-0 bg-grid opacity-20" />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(212,175,55,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.07) 1px, transparent 1px)',
-          backgroundSize: '80px 80px',
-        }}
-      />
-
-      {/* Particle Field */}
-      <ParticleField 
-        particleCount={70} 
+      {/* Particle Constellation */}
+      <ParticleField
+        particleCount={38}
         color="rgba(212, 175, 55"
       />
 

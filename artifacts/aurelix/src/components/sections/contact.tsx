@@ -77,7 +77,7 @@ export function ContactSection() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <p className="text-foreground">contact@aurelixsystems.com</p>
+                    <p className="text-foreground">aurelixsystemz@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
