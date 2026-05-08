@@ -1,0 +1,31 @@
+kind = "video"
+previewPath = "/aurelix-promo/"
+title = "AURELIX Promo Video"
+version = "1.0.0"
+id = "artifacts/aurelix-promo"
+router = "path"
+
+[[integratedSkills]]
+name = "video-js"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/aurelix-promo/" ]
+localPort = 21716
+
+[services.development]
+run = "pnpm --filter @workspace/aurelix-promo run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/aurelix-promo", "run", "build" ]
+publicDir = "artifacts/aurelix-promo/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21716"
+BASE_PATH = "/aurelix-promo/"
