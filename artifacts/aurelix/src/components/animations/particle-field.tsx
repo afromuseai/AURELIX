@@ -1,5 +1,3 @@
-
-
 import { useEffect, useRef } from 'react'
 
 function withAlpha(color: string, alpha: number): string {
@@ -19,6 +17,8 @@ interface Particle {
   vy: number
   size: number
   opacity: number
+  phase: number
+  phaseSpeed: number
 }
 
 export function ParticleField({ 
@@ -50,52 +50,70 @@ export function ParticleField({
     resizeCanvas()
     window.addEventListener('resize', resizeCanvas)
 
-    // Initialize particles
     particlesRef.current = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvas.offsetWidth,
       y: Math.random() * canvas.offsetHeight,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      size: Math.random() * 2 + 0.5,
-      opacity: Math.random() * 0.5 + 0.2
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      size: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.5 + 0.3,
+      phase: Math.random() * Math.PI * 2,
+      phaseSpeed: 0.004 + Math.random() * 0.012,
     }))
+
+    const MAX_DIST = 160
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight)
 
-      particlesRef.current.forEach((particle, i) => {
-        // Update position
-        particle.x += particle.vx
-        particle.y += particle.vy
+      const particles = particlesRef.current
 
-        // Wrap around edges
-        if (particle.x < 0) particle.x = canvas.offsetWidth
-        if (particle.x > canvas.offsetWidth) particle.x = 0
-        if (particle.y < 0) particle.y = canvas.offsetHeight
-        if (particle.y > canvas.offsetHeight) particle.y = 0
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i]
 
-        // Draw particle
+        p.x += p.vx
+        p.y += p.vy
+        p.phase += p.phaseSpeed
+
+        if (p.x < 0) p.x = canvas.offsetWidth
+        if (p.x > canvas.offsetWidth) p.x = 0
+        if (p.y < 0) p.y = canvas.offsetHeight
+        if (p.y > canvas.offsetHeight) p.y = 0
+
+        const sinP = Math.sin(p.phase)
+        const particleAlpha = p.opacity * (0.5 + 0.5 * Math.abs(sinP))
+
         ctx.beginPath()
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-        ctx.fillStyle = withAlpha(color, particle.opacity)
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+        ctx.fillStyle = withAlpha(color, particleAlpha)
         ctx.fill()
 
-        // Draw connections
-        particlesRef.current.slice(i + 1).forEach(other => {
-          const dx = particle.x - other.x
-          const dy = particle.y - other.y
-          const distance = Math.sqrt(dx * dx + dy * dy)
+        for (let j = i + 1; j < particles.length; j++) {
+          const other = particles[j]
+          const dx = p.x - other.x
+          const dy = p.y - other.y
+          const distSq = dx * dx + dy * dy
 
-          if (distance < 120) {
-            ctx.beginPath()
-            ctx.moveTo(particle.x, particle.y)
-            ctx.lineTo(other.x, other.y)
-            ctx.strokeStyle = withAlpha(color, 0.1 * (1 - distance / 120))
-            ctx.lineWidth = 0.5
-            ctx.stroke()
-          }
-        })
-      })
+          if (distSq >= MAX_DIST * MAX_DIST) continue
+
+          const distance = Math.sqrt(distSq)
+          const distanceFactor = 1 - distance / MAX_DIST
+
+          const sinQ = Math.sin(other.phase)
+          const phaseFactor = Math.max(0, sinP) * Math.max(0, sinQ)
+
+          const lineAlpha = 0.55 * distanceFactor * phaseFactor
+
+          if (lineAlpha < 0.005) continue
+
+          ctx.beginPath()
+          ctx.moveTo(p.x, p.y)
+          ctx.lineTo(other.x, other.y)
+          ctx.strokeStyle = withAlpha(color, lineAlpha)
+          ctx.lineWidth = 0.6
+          ctx.stroke()
+        }
+      }
 
       animationRef.current = requestAnimationFrame(animate)
     }
