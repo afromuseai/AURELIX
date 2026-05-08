@@ -11,7 +11,7 @@ interface Dot {
 
 export function ParticleField({
   className = '',
-  particleCount = 28,
+  particleCount = 55,
 }: {
   className?: string
   particleCount?: number
@@ -38,7 +38,7 @@ export function ParticleField({
 
       dotsRef.current = Array.from({ length: particleCount }, () => {
         const angle = Math.random() * Math.PI * 2
-        const speed = 0.1 + Math.random() * 0.15
+        const speed = 0.08 + Math.random() * 0.12
         const glow = Math.random() < 0.25
         return {
           x: Math.random() * W,
