@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "c4B5IgvRXc5R0UdyoUENT"
+uri = "file://artifacts/aurelix-pitch-deck/public/hero.png"
+type = "image"
+title = "generated_image"

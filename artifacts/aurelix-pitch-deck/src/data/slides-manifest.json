@@ -1,0 +1,74 @@
+[
+  {
+    "id": "a1b2c3d4-0001-4e5f-8a9b-c0d1e2f30001",
+    "position": 1,
+    "filepath": "src/pages/slides/Cover.tsx",
+    "title": "AURELIX SYSTEMS",
+    "description": "Cover slide — company name and tagline",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-0002-4e5f-8a9b-c0d1e2f30002",
+    "position": 2,
+    "filepath": "src/pages/slides/Vision.tsx",
+    "title": "Company Vision",
+    "description": "Mission, vision, and core beliefs",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-0003-4e5f-8a9b-c0d1e2f30003",
+    "position": 3,
+    "filepath": "src/pages/slides/FourVerticals.tsx",
+    "title": "Four Verticals",
+    "description": "Overview of all four AI product verticals",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-0004-4e5f-8a9b-c0d1e2f30004",
+    "position": 4,
+    "filepath": "src/pages/slides/AfroMuse.tsx",
+    "title": "AfroMuse AI",
+    "description": "Creative Intelligence product vertical",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-0005-4e5f-8a9b-c0d1e2f30005",
+    "position": 5,
+    "filepath": "src/pages/slides/GTPro.tsx",
+    "title": "GTPro",
+    "description": "Global Trade Intelligence product vertical",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-0006-4e5f-8a9b-c0d1e2f30006",
+    "position": 6,
+    "filepath": "src/pages/slides/StageOne.tsx",
+    "title": "StageOne",
+    "description": "Business Infrastructure Intelligence product vertical",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-0007-4e5f-8a9b-c0d1e2f30007",
+    "position": 7,
+    "filepath": "src/pages/slides/AurelixCyber.tsx",
+    "title": "AURELIX Cyber",
+    "description": "Autonomous Security Systems product vertical",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-0008-4e5f-8a9b-c0d1e2f30008",
+    "position": 8,
+    "filepath": "src/pages/slides/MarketOpportunity.tsx",
+    "title": "Market Opportunity",
+    "description": "Global AI market opportunity and industry scale",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a1b2c3d4-0009-4e5f-8a9b-c0d1e2f30009",
+    "position": 9,
+    "filepath": "src/pages/slides/Closing.tsx",
+    "title": "Join the Future",
+    "description": "Call to action and contact information",
+    "speakerNotes": ""
+  }
+]
