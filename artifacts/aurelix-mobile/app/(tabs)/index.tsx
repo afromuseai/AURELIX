@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef } from "react";
 import {
@@ -74,8 +75,6 @@ export default function HomeScreen() {
   const logoScale = useRef(new Animated.Value(0.8)).current;
   const logoOpacity = useRef(new Animated.Value(0)).current;
   const titleOpacity = useRef(new Animated.Value(0)).current;
-  const glowAnim = useRef(new Animated.Value(0)).current;
-
   const topInset = Platform.OS === "web" ? 67 : insets.top;
   const bottomInset = Platform.OS === "web" ? 34 : 0;
 
@@ -100,27 +99,7 @@ export default function HomeScreen() {
         useNativeDriver: true,
       }),
     ]).start();
-
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(glowAnim, {
-          toValue: 1,
-          duration: 2000,
-          useNativeDriver: true,
-        }),
-        Animated.timing(glowAnim, {
-          toValue: 0,
-          duration: 2000,
-          useNativeDriver: true,
-        }),
-      ])
-    ).start();
   }, []);
-
-  const glowOpacity = glowAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.3, 0.8],
-  });
 
   return (
     <ScrollView
@@ -137,30 +116,14 @@ export default function HomeScreen() {
           { opacity: logoOpacity, transform: [{ scale: logoScale }] },
         ]}
       >
-        <Animated.View
-          style={[
-            styles.glowRing,
-            { borderColor: colors.gold, opacity: glowOpacity },
-          ]}
+        <Image
+          source={require("../../assets/images/aurelix-logo-transparent.png")}
+          style={styles.logoImage}
+          contentFit="contain"
         />
-        <View
-          style={[
-            styles.logoCircle,
-            { backgroundColor: colors.card, borderColor: colors.border },
-          ]}
-        >
-          <Text style={[styles.logoText, { color: colors.gold }]}>AX</Text>
-        </View>
       </Animated.View>
 
       <Animated.View style={{ opacity: titleOpacity, alignItems: "center" }}>
-        <Text style={[styles.brandName, { color: colors.foreground }]}>
-          AURELIX
-        </Text>
-        <Text style={[styles.brandSub, { color: colors.gold }]}>
-          — SYSTEMS —
-        </Text>
-        <View style={[styles.divider, { backgroundColor: colors.gold }]} />
         <Text style={[styles.tagline, { color: colors.mutedForeground }]}>
           Intelligent systems that evolve,{"\n"}adapt, and scale with human
           ambition.
@@ -240,45 +203,11 @@ const styles = StyleSheet.create({
   heroSection: {
     alignItems: "center",
     justifyContent: "center",
-    position: "relative",
+    width: "100%",
   },
-  glowRing: {
-    position: "absolute",
-    width: 120,
+  logoImage: {
+    width: "100%",
     height: 120,
-    borderRadius: 60,
-    borderWidth: 1,
-  },
-  logoCircle: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    borderWidth: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logoText: {
-    fontSize: 28,
-    fontFamily: "Orbitron_800ExtraBold",
-    letterSpacing: 4,
-  },
-  brandName: {
-    fontSize: 38,
-    fontFamily: "Orbitron_900Black",
-    letterSpacing: 10,
-    textAlign: "center",
-  },
-  brandSub: {
-    fontSize: 13,
-    fontFamily: "Orbitron_500Medium",
-    letterSpacing: 6,
-    marginTop: 6,
-  },
-  divider: {
-    width: 40,
-    height: 1,
-    marginTop: 18,
-    marginBottom: 16,
   },
   tagline: {
     fontSize: 15,
